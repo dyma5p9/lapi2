@@ -76,4 +76,33 @@ class UserController extends Controller
         $user = Auth::user();
         return response()->json(['success' => $user], $this->successStatus);
     }
+
+    /**
+     * getPassword api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'new_password' => 'required',
+            'c_new_password' => 'required|same:new_password',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 401);
+        }
+
+        $update = User::where('id', Auth::user()->id)
+            ->update([
+                'password' => bcrypt($request->new_password)
+            ]);
+
+        if($update){
+            return response()->json(['success' => 'ok'], $this->successStatus);
+        }
+
+        return response()->json(['success' => 'ko'], $this->successStatus);
+    }
 }

@@ -36,10 +36,8 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/photo_update', ['as' => 'photo.update', 'uses' => 'API\PhotoController@update']);
     Route::delete('/photo/{id}', ['as' => 'photo.destroy', 'uses' => 'API\PhotoController@destroy']);
 
-    //Route::post('details', 'API\UserController@details');
+    Route::post('/details', 'API\UserController@details');
+    Route::post('/changePassword', 'API\UserController@changePassword');
 
 });
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
